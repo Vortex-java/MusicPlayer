@@ -1,0 +1,19 @@
+version: "3.8"
+
+volumes:
+  music_player_data:
+
+services:
+  music_player_db:
+    image: postgres:15
+
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+
+    volumes:
+      - music_player_data:/var/lib/postgresql/data
+
+    ports:
+      - "${DB_PORT}:5432"
