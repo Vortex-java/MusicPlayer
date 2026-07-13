@@ -3,6 +3,7 @@ package app.vx.musicplayer.album.entity;
 import app.vx.musicplayer.artist.entity.Artist;
 import app.vx.musicplayer.cover.entity.Cover;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "albums")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Album {
 

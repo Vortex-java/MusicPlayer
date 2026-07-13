@@ -4,12 +4,13 @@ import app.vx.musicplayer.album.entity.Album;
 import app.vx.musicplayer.artist.entity.Artist;
 import app.vx.musicplayer.cover.entity.Cover;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tracks")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Track {
 
