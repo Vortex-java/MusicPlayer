@@ -19,7 +19,7 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 75)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
