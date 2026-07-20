@@ -14,10 +14,32 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleLoginExists (LoginAlreadyExistsException exception) {
         ErrorResponse response = new ErrorResponse(
                 exception.getMessage(),
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.CONFLICT.value(),
                 LocalDateTime.now()
         );
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlerUserNotFound (UserNotFoundException exception) {
+        ErrorResponse response = new ErrorResponse(
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCredentials (InvalidCredentialsException exception) {
+        ErrorResponse response = new ErrorResponse(
+                exception.getMessage(),
+                HttpStatus.UNAUTHORIZED.value(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }
