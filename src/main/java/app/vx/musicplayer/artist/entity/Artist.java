@@ -17,4 +17,12 @@ public class Artist {
 
     @Column(nullable = false, unique = true, length = 100)
     private String name;
+
+    public Artist (String name) {
+        this.name = name;
+    }
+
+    public void setName (String name) {
+        this.name = name;
+    }
 }

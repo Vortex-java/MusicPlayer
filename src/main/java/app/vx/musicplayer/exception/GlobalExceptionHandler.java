@@ -42,4 +42,26 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
+
+    @ExceptionHandler(ArtistAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleArtistExists (ArtistAlreadyExistsException exception) {
+        ErrorResponse response = new ErrorResponse(
+                exception.getMessage(),
+                HttpStatus.CONFLICT.value(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(ArtistNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlerArtistNotFound (ArtistNotFoundException exception) {
+        ErrorResponse response = new ErrorResponse(
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
 }
