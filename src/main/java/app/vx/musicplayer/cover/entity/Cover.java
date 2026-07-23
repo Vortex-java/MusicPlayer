@@ -20,4 +20,9 @@ public class Cover {
 
     @Column(nullable = false)
     private String path;
+
+    public Cover (String name, String path) {
+        this.name = name;
+        this.path = path;
+    }
 }

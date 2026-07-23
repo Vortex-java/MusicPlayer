@@ -2,8 +2,8 @@ package app.vx.musicplayer.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class ArtistNotFoundException extends ApiException {
-    public ArtistNotFoundException(String message) {
+public class CoverNotFoundException extends ApiException {
+    public CoverNotFoundException(String message) {
         super(message, HttpStatus.NOT_FOUND);
     }
 }

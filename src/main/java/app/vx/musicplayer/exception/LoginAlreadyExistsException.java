@@ -1,7 +1,9 @@
 package app.vx.musicplayer.exception;
 
-public class LoginAlreadyExistsException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class LoginAlreadyExistsException extends ApiException {
     public LoginAlreadyExistsException(String message) {
-        super(message);
+        super(message, HttpStatus.CONFLICT);
     }
 }

@@ -2,8 +2,9 @@ package app.vx.musicplayer.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class InvalidCredentialsException extends ApiException {
-    public InvalidCredentialsException(String message) {
+public class InvalidFileException extends ApiException {
+    public InvalidFileException(String message) {
+
         super(message, HttpStatus.UNAUTHORIZED);
     }
 }

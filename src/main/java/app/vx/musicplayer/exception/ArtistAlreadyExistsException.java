@@ -1,7 +1,9 @@
 package app.vx.musicplayer.exception;
 
-public class ArtistAlreadyExistsException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class ArtistAlreadyExistsException extends ApiException{
     public ArtistAlreadyExistsException(String message) {
-        super(message);
+        super(message, HttpStatus.CONFLICT);
     }
 }

@@ -4,8 +4,8 @@ public record GetTrackResponse(
 
         String name,
         String coverUrl,
-        Long artistName,
-        Long albumName,
+        String artistName,
+        String albumName,
         Long duration
 ) {
 }
