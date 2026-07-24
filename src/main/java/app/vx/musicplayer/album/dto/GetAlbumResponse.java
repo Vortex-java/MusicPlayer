@@ -7,7 +7,9 @@ import java.util.List;
 
 public record GetAlbumResponse(
 
+        Long id,
         String name,
+        Long artistId,
         String artistName,
         LocalDate releaseDate,
         String coverUrl,

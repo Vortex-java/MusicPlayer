@@ -32,4 +32,27 @@ public class Album {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_id")
     private Cover cover;
+
+    public Album (String name, Artist artist, LocalDate releaseDate, Cover cover) {
+        this.name = name;
+        this.artist = artist;
+        this.releaseDate = releaseDate;
+        this.cover = cover;
+    }
+
+    public void setName (String name) {
+        this.name = name;
+    }
+
+    public void setArtist (Artist artist) {
+        this.artist = artist;
+    }
+
+    public void setReleaseDate (LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setCover (Cover cover) {
+        this.cover = cover;
+    }
 }

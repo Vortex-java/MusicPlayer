@@ -4,9 +4,11 @@ import java.time.LocalDate;
 
 public record GetPreviewAlbumResponse(
 
+        Long id,
         String name,
+        Long artistId,
         String artistName,
-        LocalDate releaseDate,
-        String coverUrl
+        String coverUrl,
+        LocalDate releaseDate
 ) {
 }

@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class InvalidFileException extends ApiException {
     public InvalidFileException(String message) {
 
-        super(message, HttpStatus.UNAUTHORIZED);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }

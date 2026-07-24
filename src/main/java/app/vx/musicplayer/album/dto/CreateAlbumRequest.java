@@ -15,7 +15,7 @@ public record CreateAlbumRequest(
         @NotNull(message = "artist id is empty")
         Long artistId,
 
-        @NotBlank(message = "release date is empty")
+        @NotNull(message = "release date is empty")
         LocalDate releaseDate,
 
         Long coverId

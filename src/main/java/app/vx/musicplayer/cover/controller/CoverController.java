@@ -47,6 +47,6 @@ public class CoverController {
     @DeleteMapping("/{id}/file")
     public ResponseEntity<Void> deleteFile (@PathVariable Long id) {
         coverService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
