@@ -19,4 +19,10 @@ public class ArtistFinder {
                 () -> new ArtistNotFoundException("Artist not found")
         );
     }
+
+    public void checkExists (Long id) {
+        if (!artistRepository.existsById(id)) {
+            throw new ArtistNotFoundException("Artist not found");
+        }
+    }
 }

@@ -1,11 +1,9 @@
 package app.vx.musicplayer.album.controller;
 
-import app.vx.musicplayer.album.dto.ChangeAlbumRequest;
-import app.vx.musicplayer.album.dto.CreateAlbumRequest;
-import app.vx.musicplayer.album.dto.GetPreviewAlbumResponse;
+import app.vx.musicplayer.album.dto.*;
 import app.vx.musicplayer.album.service.AlbumService;
+import app.vx.musicplayer.common.dto.PageResponse;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -41,13 +39,13 @@ public class AlbumController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GetPreviewAlbumResponse>> getAll (@PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<PageResponse<GetPreviewAlbumResponse>> getAll (@PageableDefault(size = 20) Pageable pageable) {
         return ResponseEntity.ok(albumService.getAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetPreviewAlbumResponse> getPreview (@PathVariable Long id) {
-        return ResponseEntity.ok(albumService.getPreview(id));
+    public ResponseEntity<GetAlbumPageResponse> getAlbum (@PathVariable Long id) {
+        return ResponseEntity.ok(albumService.getAlbum(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

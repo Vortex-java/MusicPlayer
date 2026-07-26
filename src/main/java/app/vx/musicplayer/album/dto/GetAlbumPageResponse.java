@@ -5,8 +5,7 @@ import app.vx.musicplayer.track.dto.GetTrackResponse;
 import java.time.LocalDate;
 import java.util.List;
 
-public record GetAlbumResponse(
-
+public record GetAlbumPageResponse(
         Long id,
         String name,
         Long artistId,

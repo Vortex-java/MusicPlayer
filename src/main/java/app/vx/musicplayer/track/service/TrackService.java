@@ -1,7 +1,9 @@
 package app.vx.musicplayer.track.service;
 
 import app.vx.musicplayer.album.entity.Album;
+import app.vx.musicplayer.album.mapper.TrackMapper;
 import app.vx.musicplayer.artist.entity.Artist;
+import app.vx.musicplayer.common.dto.PageResponse;
 import app.vx.musicplayer.common.event.FileCleanupEvent;
 import app.vx.musicplayer.common.event.FileDeleteEvent;
 import app.vx.musicplayer.common.finder.AlbumFinder;
@@ -15,9 +17,13 @@ import app.vx.musicplayer.storage.FileStorageService;
 import app.vx.musicplayer.storage.entity.Filetype;
 import app.vx.musicplayer.track.dto.ChangeTrackRequest;
 import app.vx.musicplayer.track.dto.CreateTrackRequest;
+import app.vx.musicplayer.track.dto.GetTrackDetailsResponse;
+import app.vx.musicplayer.track.dto.GetTrackResponse;
 import app.vx.musicplayer.track.entity.Track;
 import app.vx.musicplayer.track.repository.TrackRepository;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +41,8 @@ public class TrackService {
     private final ArtistFinder artistFinder;
     private final CoverFinder coverFinder;
     private final TrackFinder trackFinder;
+
+    private final TrackMapper trackMapper;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -54,7 +62,8 @@ public class TrackService {
             CoverFinder coverFinder,
             AudioMetadataService audioMetadataService,
             TrackFinder trackFinder,
-            ApplicationEventPublisher applicationEventPublisher
+            ApplicationEventPublisher applicationEventPublisher,
+            TrackMapper trackMapper
     ) {
         this.trackRepository = trackRepository;
         this.fileStorageService = fileStorageService;
@@ -64,6 +73,7 @@ public class TrackService {
         this.audioMetadataService = audioMetadataService;
         this.trackFinder = trackFinder;
         this.applicationEventPublisher = applicationEventPublisher;
+        this.trackMapper = trackMapper;
     }
 
     @Transactional
@@ -97,6 +107,18 @@ public class TrackService {
 
             throw e;
         }
+    }
+
+    public PageResponse<GetTrackResponse> getAll (Pageable pageable) {
+        Page<GetTrackResponse> page = trackRepository.findAll(pageable).map(trackMapper::toResponse);
+
+        return PageResponse.from(page);
+    }
+
+    public GetTrackDetailsResponse getTrackDetailsResponse (Long id) {
+        Track track = trackFinder.findByIdOrElseThrow(id);
+
+        return trackMapper.toDetails(track);
     }
 
     @Transactional

@@ -1,15 +1,13 @@
 package app.vx.musicplayer.album.service;
 
-import app.vx.musicplayer.album.dto.ChangeAlbumRequest;
-import app.vx.musicplayer.album.dto.CreateAlbumRequest;
-import app.vx.musicplayer.album.dto.GetPreviewAlbumResponse;
+import app.vx.musicplayer.album.dto.*;
 import app.vx.musicplayer.album.entity.Album;
 import app.vx.musicplayer.album.mapper.AlbumMapper;
+import app.vx.musicplayer.album.mapper.TrackMapper;
 import app.vx.musicplayer.album.repository.AlbumRepository;
 import app.vx.musicplayer.artist.repository.ArtistRepository;
-import app.vx.musicplayer.common.finder.AlbumFinder;
-import app.vx.musicplayer.common.finder.ArtistFinder;
-import app.vx.musicplayer.common.finder.CoverFinder;
+import app.vx.musicplayer.common.dto.PageResponse;
+import app.vx.musicplayer.common.finder.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,17 +17,35 @@ import org.springframework.transaction.annotation.Transactional;
 public class AlbumService {
 
     private final AlbumRepository albumRepository;
-    private final AlbumMapper albumMapper;
+
     private final AlbumFinder albumFinder;
     private final ArtistFinder artistFinder;
     private final CoverFinder coverFinder;
+    private final TrackFinder trackFinder;
+    private final CoverUrlFinder coverUrlFinder;
 
-    public AlbumService (AlbumRepository albumRepository, ArtistRepository artistRepository, AlbumMapper albumMapper, AlbumFinder albumFinder, ArtistFinder artistFinder, CoverFinder coverFinder) {
+    private final AlbumMapper albumMapper;
+    private final TrackMapper trackMapper;
+
+    public AlbumService (
+            AlbumRepository albumRepository,
+            ArtistRepository artistRepository,
+            AlbumMapper albumMapper,
+            AlbumFinder albumFinder,
+            ArtistFinder artistFinder,
+            CoverFinder coverFinder,
+            TrackMapper trackMapper,
+            TrackFinder trackFinder,
+            CoverUrlFinder coverUrlFinder
+    ) {
         this.albumRepository = albumRepository;
-        this.albumMapper = albumMapper;
         this.albumFinder = albumFinder;
         this.artistFinder = artistFinder;
         this.coverFinder = coverFinder;
+        this.albumMapper = albumMapper;
+        this.trackMapper = trackMapper;
+        this.trackFinder = trackFinder;
+        this.coverUrlFinder = coverUrlFinder;
     }
 
     @Transactional
@@ -56,14 +72,29 @@ public class AlbumService {
         album.setCover(coverFinder.findByIdOrElseNull(request.coverId()));
     }
 
-    public Page<GetPreviewAlbumResponse> getAll (Pageable pageable) {
-        return albumRepository.findAll(pageable).map(albumMapper::toPreviewResponse);
+    public PageResponse<GetPreviewAlbumResponse> getAll (Pageable pageable) {
+        Page<GetPreviewAlbumResponse> page = albumRepository
+                .findAll(pageable)
+                .map(albumMapper::toPreviewResponse);
+
+        return PageResponse.from(page);
     }
 
-    public GetPreviewAlbumResponse getPreview (Long id) {
+    public GetAlbumPageResponse getAlbum (Long id) {
         Album album = albumFinder.findByIdOrElseThrow(id);
 
-        return albumMapper.toPreviewResponse(album);
+        return new GetAlbumPageResponse(
+                album.getId(),
+                album.getName(),
+                album.getArtist().getId(),
+                album.getArtist().getName(),
+                album.getReleaseDate(),
+                coverUrlFinder.findUrl(album.getCover()),
+                trackFinder.findByAlbumId(id)
+                        .stream()
+                        .map(trackMapper::toResponse)
+                        .toList()
+        );
     }
 
     @Transactional

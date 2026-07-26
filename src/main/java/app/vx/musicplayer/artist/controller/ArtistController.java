@@ -1,10 +1,13 @@
 package app.vx.musicplayer.artist.controller;
 
-import app.vx.musicplayer.artist.dto.ChangeArtistRequest;
-import app.vx.musicplayer.artist.dto.CreateArtistRequest;
-import app.vx.musicplayer.artist.dto.GetArtistResponse;
+import app.vx.musicplayer.album.dto.GetPreviewAlbumResponse;
+import app.vx.musicplayer.artist.dto.*;
 import app.vx.musicplayer.artist.service.ArtistService;
+import app.vx.musicplayer.common.dto.PageResponse;
+import app.vx.musicplayer.track.dto.GetTrackResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +40,23 @@ public class ArtistController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetArtistResponse> getArtist (@PathVariable Long id) {
+    public ResponseEntity<GetArtistPageResponse> getArtist (@PathVariable Long id) {
         return ResponseEntity.ok(artistService.getArtist(id));
+    }
+
+    @GetMapping("/{id}/albums")
+    public ResponseEntity<PageResponse<GetPreviewAlbumResponse>> getAlbums (
+            @PathVariable Long id,
+            @PageableDefault(size = 10) Pageable pageable
+    ) {
+        return ResponseEntity.ok(artistService.getAlbums(id, pageable));
+    }
+
+    @GetMapping("/{id}/tracks")
+    public ResponseEntity<PageResponse<GetTrackResponse>> getTracks (
+            @PathVariable Long id,
+            @PageableDefault(size = 20) Pageable pageable
+    ) {
+        return ResponseEntity.ok(artistService.getTracks(id, pageable));
     }
 }

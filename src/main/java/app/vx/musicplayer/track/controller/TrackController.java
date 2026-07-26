@@ -1,9 +1,14 @@
 package app.vx.musicplayer.track.controller;
 
+import app.vx.musicplayer.common.dto.PageResponse;
 import app.vx.musicplayer.track.dto.ChangeTrackRequest;
 import app.vx.musicplayer.track.dto.CreateTrackRequest;
+import app.vx.musicplayer.track.dto.GetTrackDetailsResponse;
+import app.vx.musicplayer.track.dto.GetTrackResponse;
 import app.vx.musicplayer.track.service.TrackService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +42,16 @@ public class TrackController {
     ) {
         trackService.change(id, request);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<PageResponse<GetTrackResponse>> getAll (@PageableDefault(size = 20) Pageable pageable) {
+        return ResponseEntity.ok(trackService.getAll(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetTrackDetailsResponse> getTrackDetails (@PathVariable Long id) {
+        return ResponseEntity.ok(trackService.getTrackDetailsResponse(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

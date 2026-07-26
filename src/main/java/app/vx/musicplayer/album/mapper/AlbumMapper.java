@@ -2,24 +2,26 @@ package app.vx.musicplayer.album.mapper;
 
 import app.vx.musicplayer.album.dto.GetPreviewAlbumResponse;
 import app.vx.musicplayer.album.entity.Album;
+import app.vx.musicplayer.common.finder.CoverUrlFinder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AlbumMapper {
+
+    private final CoverUrlFinder coverUrlFinder;
+
+    public AlbumMapper (CoverUrlFinder coverUrlFinder) {
+        this.coverUrlFinder = coverUrlFinder;
+    }
+
     public GetPreviewAlbumResponse toPreviewResponse (Album album) {
-
-        String coverUrl = "/images/default-cover.png";
-
-        if (album.getCover() != null) {
-            coverUrl = "/api/covers/" + album.getCover().getId() + "/file";
-        }
 
         return new GetPreviewAlbumResponse(
                 album.getId(),
                 album.getName(),
                 album.getArtist().getId(),
                 album.getArtist().getName(),
-                coverUrl,
+                coverUrlFinder.findUrl(album.getCover()),
                 album.getReleaseDate()
         );
     }
