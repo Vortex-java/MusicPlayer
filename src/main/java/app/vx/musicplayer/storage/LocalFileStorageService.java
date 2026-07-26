@@ -32,8 +32,8 @@ public class LocalFileStorageService implements FileStorageService {
 
         try {
             switch (filetype) {
-                case IMAGE -> validateImage(file, allowedTypes);
-                case AUDIO -> validateAudio(file, allowedTypes);
+                case IMAGE_AVATAR -> validateImage(file, allowedTypes);
+                case AUDIO -> validateAudioContentType(file, allowedTypes);
             }
 
             Path directoryPath = Paths.get(storagePath, directory);
@@ -106,7 +106,11 @@ public class LocalFileStorageService implements FileStorageService {
         }
     }
 
-    private void validateAudio (MultipartFile file, Set<String> allowedTypes) {
+    private void validateAudioContentType (MultipartFile file, Set<String> allowedTypes) {
+        String contentType = file.getContentType();
 
+        if (contentType == null || !allowedTypes.contains(contentType)) {
+            throw new InvalidFileException("File is not audio");
+        }
     }
 }

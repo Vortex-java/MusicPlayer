@@ -5,8 +5,8 @@ import app.vx.musicplayer.artist.dto.CreateArtistRequest;
 import app.vx.musicplayer.artist.dto.GetArtistResponse;
 import app.vx.musicplayer.artist.entity.Artist;
 import app.vx.musicplayer.artist.repository.ArtistRepository;
+import app.vx.musicplayer.common.finder.ArtistFinder;
 import app.vx.musicplayer.exception.ArtistAlreadyExistsException;
-import app.vx.musicplayer.exception.ArtistNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +16,11 @@ import java.util.Objects;
 public class ArtistService {
 
     private final ArtistRepository artistRepository;
+    private final ArtistFinder artistfinder;
 
-    public ArtistService (ArtistRepository artistRepository) {
+    public ArtistService (ArtistRepository artistRepository, ArtistFinder artistfinder) {
         this.artistRepository = artistRepository;
+        this.artistfinder = artistfinder;
     }
 
     public void create (CreateArtistRequest request) {
@@ -34,11 +36,7 @@ public class ArtistService {
     @Transactional
     public void change (Long id, ChangeArtistRequest request) {
 
-        Artist artist = artistRepository.findById(id)
-                .orElseThrow(
-                        () -> new ArtistNotFoundException("Artist not found")
-                );
-
+        Artist artist = artistfinder.findByIdOrElseThrow(id);
         Artist artist1 = artistRepository.findByName(request.name());
 
         if (artist1 != null && !Objects.equals(artist.getId(), artist1.getId())) {
@@ -50,10 +48,7 @@ public class ArtistService {
 
     public GetArtistResponse getArtist (Long id) {
 
-        Artist artist = artistRepository.findById(id)
-                .orElseThrow(
-                        () -> new ArtistNotFoundException("Artist not found")
-                );
+        Artist artist = artistfinder.findByIdOrElseThrow(id);
 
         return new GetArtistResponse(artist.getName());
     }

@@ -38,4 +38,29 @@ public class Track {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_id")
     private Cover cover;
+
+    public Track (String name, Album album, Artist artist, Long duration, String filePath, Cover cover) {
+        this.name = name;
+        this.album = album;
+        this.artist = artist;
+        this.duration = duration;
+        this.filePath = filePath;
+        this.cover = cover;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
+    public void setCover(Cover cover) {
+        this.cover = cover;
+    }
 }

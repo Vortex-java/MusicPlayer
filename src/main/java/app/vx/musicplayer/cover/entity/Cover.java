@@ -25,4 +25,8 @@ public class Cover {
         this.name = name;
         this.path = path;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

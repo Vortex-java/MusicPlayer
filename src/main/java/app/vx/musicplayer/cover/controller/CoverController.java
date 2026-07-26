@@ -1,5 +1,6 @@
 package app.vx.musicplayer.cover.controller;
 
+import app.vx.musicplayer.cover.dto.ChangeCoverRequest;
 import app.vx.musicplayer.cover.dto.CreateCoverRequest;
 import app.vx.musicplayer.cover.service.CoverService;
 import jakarta.validation.Valid;
@@ -41,6 +42,16 @@ public class CoverController {
                 orElse(MediaType.APPLICATION_OCTET_STREAM);
 
         return ResponseEntity.ok().contentType(mediaType).body(resource);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> change (
+            @PathVariable Long id,
+            @Valid @RequestBody ChangeCoverRequest request
+    ) {
+        coverService.change(id, request);
+        return ResponseEntity.ok().build();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
