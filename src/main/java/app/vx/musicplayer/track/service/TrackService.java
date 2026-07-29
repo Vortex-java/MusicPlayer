@@ -22,6 +22,7 @@ import app.vx.musicplayer.track.dto.GetTrackResponse;
 import app.vx.musicplayer.track.entity.Track;
 import app.vx.musicplayer.track.repository.TrackRepository;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -119,6 +120,12 @@ public class TrackService {
         Track track = trackFinder.findByIdOrElseThrow(id);
 
         return trackMapper.toDetails(track);
+    }
+
+    public Resource stream (Long id) {
+        Track track = trackFinder.findByIdOrElseThrow(id);
+
+        return fileStorageService.load(track.getFilePath());
     }
 
     @Transactional

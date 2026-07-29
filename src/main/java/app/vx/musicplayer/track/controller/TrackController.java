@@ -1,18 +1,19 @@
 package app.vx.musicplayer.track.controller;
 
 import app.vx.musicplayer.common.dto.PageResponse;
-import app.vx.musicplayer.track.dto.ChangeTrackRequest;
-import app.vx.musicplayer.track.dto.CreateTrackRequest;
-import app.vx.musicplayer.track.dto.GetTrackDetailsResponse;
-import app.vx.musicplayer.track.dto.GetTrackResponse;
+import app.vx.musicplayer.track.dto.*;
 import app.vx.musicplayer.track.service.TrackService;
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/tracks")
@@ -52,6 +53,43 @@ public class TrackController {
     @GetMapping("/{id}")
     public ResponseEntity<GetTrackDetailsResponse> getTrackDetails (@PathVariable Long id) {
         return ResponseEntity.ok(trackService.getTrackDetailsResponse(id));
+    }
+
+    @GetMapping("/{id}/stream")
+    public ResponseEntity<ResourceRegion> stream (
+            @PathVariable Long id,
+            @RequestHeader(value = "Range", required = false) String rangeHeader) throws IOException {
+        Resource resource = trackService.stream(id);
+
+        System.out.println("Range = " + rangeHeader);
+
+        long contentLength = resource.contentLength();
+
+        ResourceRegion resourceRegion;
+
+        HttpStatus status;
+
+        if (rangeHeader == null) {
+            resourceRegion = new ResourceRegion(resource, 0, contentLength);
+            status = HttpStatus.OK;
+        } else {
+            HttpRange range = HttpRange
+                    .parseRanges(rangeHeader)
+                    .getFirst();
+
+            resourceRegion = range.toResourceRegion(resource);
+            status = HttpStatus.PARTIAL_CONTENT;
+        }
+
+        MediaType mediaType = MediaTypeFactory
+                .getMediaType(resource)
+                .orElse(MediaType.APPLICATION_OCTET_STREAM);
+
+        return ResponseEntity.status(
+                status
+        )
+                .contentType(mediaType)
+                .body(resourceRegion);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
