@@ -14,6 +14,7 @@ public record ChangeTrackRequest(
         Long artistId,
 
         Long albumId,
+        Integer trackNumber,
         Long coverId
 ) {
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public record GetArtistPageResponse(
         String name,
-        List<GetTrackResponse> popularTracks,
+        List<GetTrackResponse> latestTracks,
         List<GetPreviewAlbumResponse> latestAlbums
 ) {
 }

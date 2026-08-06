@@ -35,17 +35,25 @@ public class Track {
     @Column(name = "file_path", nullable = false)
     private String filePath;
 
+    @Column(name = "lyrics_path")
+    private String lyricsPath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_id")
     private Cover cover;
 
-    public Track (String name, Album album, Artist artist, Long duration, String filePath, Cover cover) {
+    @Column(name = "track_number")
+    private Integer trackNumber;
+
+    public Track (String name, Album album, Artist artist, Long duration, String filePath, String lyricsPath, Cover cover, Integer trackNumber) {
         this.name = name;
         this.album = album;
         this.artist = artist;
         this.duration = duration;
         this.filePath = filePath;
+        this.lyricsPath = lyricsPath;
         this.cover = cover;
+        this.trackNumber = trackNumber;
     }
 
     public void setName(String name) {
@@ -62,5 +70,13 @@ public class Track {
 
     public void setCover(Cover cover) {
         this.cover = cover;
+    }
+
+    public void setLyricsPath(String lyricsPath) {
+        this.lyricsPath = lyricsPath;
+    }
+
+    public void setTrackNumber (Integer trackNumber) {
+        this.trackNumber = trackNumber;
     }
 }

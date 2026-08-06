@@ -1,0 +1,81 @@
+.profile-page {
+
+}
+
+.profile-page-header {
+    font-family: Roboto, sans-serif;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-top: 20px;
+
+    height: 85px;
+}
+
+.profile-page-content {
+    padding-left: 75px;
+    margin-bottom: 15px;
+}
+
+.profile-page-username {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 40px;
+    margin-left: 5px;
+}
+
+.profile-page-logout {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+    width: 55px;
+    height: 55px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    transition: 0.3s ease;
+    margin-top: 7px;
+}
+
+.profile-page-logout:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.profile-page-logout-img {
+    filter: invert(18%) sepia(97%) saturate(7481%) hue-rotate(358deg) brightness(96%) contrast(116%);;
+    opacity: 0.75;
+    width: 25px;
+    height: 25px;
+    padding-left: 5px;
+}
+
+.profile-page-button {
+    display: flex;
+    margin-top: 30px;
+    width: 24%;
+    height: 50px;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.25);
+    font-family: Roboto, sans-serif;
+    color: rgba(255, 255, 255, 0.75);
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.25s ease;
+}
+
+.profile-page-button:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.profile-page-catalog {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 90px;
+}

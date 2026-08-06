@@ -1,0 +1,30 @@
+* {
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    background: rgb(30, 30, 30);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#app-header {
+    position: sticky;
+    top: 0;
+
+    z-index: 1;
+}
+
+#app, #app-player {
+    opacity: 1;
+    transition: opacity .2s ease;
+}
+
+#app.fade-out, #app-header.fade-out, #app-player.fade-out, #down-player.fade-out {
+    opacity: 0;
+}
+
+.hidden {
+    display: none;
+}

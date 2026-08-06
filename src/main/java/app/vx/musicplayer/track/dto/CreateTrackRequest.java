@@ -14,6 +14,7 @@ public record CreateTrackRequest(
         Long artistId,
 
         Long albumId,
+        Integer trackNumber,
         Long coverId
 ) {
 }

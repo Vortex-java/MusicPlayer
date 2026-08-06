@@ -1,0 +1,193 @@
+.album-page {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.album-page-header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 75px;
+    margin-right: 75px;
+}
+
+.album-page-back {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+    width: 55px;
+    height: 55px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    transition: 0.3s ease;
+    margin-top: 7px;
+}
+
+.album-page-back:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.album-page-header-back {
+    filter: brightness(0) invert(1);
+    opacity: 0.75;
+    width: 32px;
+    height: 32px;
+}
+
+.album-page-profile {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50px;
+    width: 55px;
+    height: 55px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    transition: 0.3s ease;
+    margin-top: 7px;
+}
+
+.album-page-profile:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.album-page-album-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 35px;
+    margin-bottom: 50px;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.album-page-album-image {
+    display: flex;
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.album-page-album-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+.album-page-album-artist {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 0;
+    font-family: Roboto, sans-serif;
+}
+
+.album-page-album-artist .album-page-artist-h1 {
+    margin: 0;
+    transition: 0.3s ease;
+}
+
+.album-page-album-artist .album-page-artist-h1:hover {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.album-page-album-artist:hover {
+    cursor: pointer;
+}
+
+.album-page-album-name {
+    margin-top: 15px;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.album-page-album-release {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.album-page-tracks-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.album-page-tracks {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    border-radius: 25px;
+
+    width: 80%;
+
+    margin-bottom: 120px;
+}
+
+.album-page-track {
+    display: flex;
+
+    height: 125px;
+
+    transition: 0.3s ease;
+}
+
+.album-page-track:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.album-page-track-img {
+    display: flex;
+    align-items: center;
+}
+
+.album-page-track-image {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    margin-left: 15px;
+    border-radius: 20px;
+}
+
+.album-page-track-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 16px;
+    padding-left: 10px;
+    padding-top: 15px;
+}
+
+.album-page-track-name {
+    margin: 0;
+}
+
+.album-page-track-artist {
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+}
+
+.album-page-track-duration {
+    display: flex;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 17px;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.album-page-info-container {
+    display: flex;
+    align-items: center;
+}

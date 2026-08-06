@@ -28,10 +28,11 @@ public class TrackController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> create (
-            @RequestPart("file") MultipartFile file,
+            @RequestPart("track-file") MultipartFile trackFile,
+            @RequestPart(value = "lyrics-file", required = false) MultipartFile lyricsFile,
             @Valid @RequestPart("request") CreateTrackRequest request)
     {
-        trackService.create(file, request);
+        trackService.create(trackFile, lyricsFile, request);
         return ResponseEntity.ok().build();
     }
 
@@ -42,6 +43,16 @@ public class TrackController {
             @Valid @RequestBody ChangeTrackRequest request
     ) {
         trackService.change(id, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}/lyrics")
+    public ResponseEntity<Void> changeLyrics (
+            @PathVariable Long id,
+            @RequestPart("file") MultipartFile file
+    ) {
+        trackService.changeLyrics(id, file);
         return ResponseEntity.ok().build();
     }
 
@@ -88,8 +99,18 @@ public class TrackController {
         return ResponseEntity.status(
                 status
         )
+                .header(HttpHeaders.ACCEPT_RANGES, "bytes")
                 .contentType(mediaType)
                 .body(resourceRegion);
+    }
+
+    @GetMapping("/{id}/lyrics")
+    public ResponseEntity<Resource> getLyrics (@PathVariable Long id) {
+        Resource resource = trackService.getLyrics(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .body(resource);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

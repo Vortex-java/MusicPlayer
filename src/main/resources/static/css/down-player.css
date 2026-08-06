@@ -1,0 +1,124 @@
+.down-player {
+
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 90px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 25px;
+
+    background: rgba(20,20,20,.97);
+    backdrop-filter: blur(12px);
+
+    box-shadow: 0 -5px 20px rgba(0,0,0,.35);
+
+    z-index: 1000;
+
+    box-sizing: border-box;
+
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform .3s ease;
+}
+
+.down-player-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+}
+
+.down-player-hidden-2 {
+    display: none;
+}
+
+.down-player:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.down-player-track{
+
+    display:flex;
+    align-items:center;
+    width:260px;
+}
+
+.down-player-cover{
+
+    width:60px;
+    height:60px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+}
+
+.down-player-track-info{
+
+    margin-left:12px;
+
+    font-family:Roboto,sans-serif;
+}
+
+.down-player-track-name{
+
+    color:white;
+    font-weight:bold;
+}
+
+.down-player-track-artist{
+
+    color:rgba(255,255,255,.55);
+    margin-top:4px;
+}
+
+.down-player-center{
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.down-player-controls{
+
+    display:flex;
+    gap:18px;
+}
+
+.down-player-btn{
+
+    width:42px;
+    height:42px;
+
+    border:none;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.down-player-btn:hover{
+
+    background:rgba(255,255,255,.18);
+}
+
+.down-player-btn img{
+
+    width:20px;
+    height:20px;
+
+    filter:brightness(0) invert(1);
+}

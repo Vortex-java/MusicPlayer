@@ -19,10 +19,7 @@ public class AlbumMapper {
         return new GetPreviewAlbumResponse(
                 album.getId(),
                 album.getName(),
-                album.getArtist().getId(),
-                album.getArtist().getName(),
-                coverUrlFinder.findUrl(album.getCover()),
-                album.getReleaseDate()
+                coverUrlFinder.findUrl(album.getCover())
         );
     }
 }

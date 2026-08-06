@@ -1,0 +1,59 @@
+.artist-page-header {
+
+    font-family: Roboto, sans-serif;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-top: 20px;
+
+    height: 85px;
+}
+
+.artist-page-artist-name {
+    display: flex;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0;
+    align-items: center;
+}
+
+.artist-page-info {
+    padding-left: 75px;
+    margin-top: 100px;
+}
+
+.artist-page-catalog-albums {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 90px;
+}
+
+.artist-page-catalog-songs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 55px;
+}
+
+.artist-page-more {
+    display: flex;
+    margin-top: 30px;
+    width: 200px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.25);
+    font-family: Roboto, sans-serif;
+    color: rgba(255, 255, 255, 0.75);
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.25s ease;
+}
+
+.artist-page-more:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+}

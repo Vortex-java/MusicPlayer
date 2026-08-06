@@ -32,8 +32,10 @@ public class LocalFileStorageService implements FileStorageService {
 
         try {
             switch (filetype) {
-                case IMAGE_AVATAR -> validateImage(file, allowedTypes);
+                case IMAGE_COVER -> validateImage(file, allowedTypes);
+                case IMAGE_ARTIST -> validateImage(file, allowedTypes);
                 case AUDIO -> validateAudioContentType(file, allowedTypes);
+                case LYRICS -> validateLyrics(file);
             }
 
             Path directoryPath = Paths.get(storagePath, directory);
@@ -111,6 +113,22 @@ public class LocalFileStorageService implements FileStorageService {
 
         if (contentType == null || !allowedTypes.contains(contentType)) {
             throw new InvalidFileException("File is not audio");
+        }
+    }
+
+    private void validateLyrics(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            throw new InvalidFileException("Lyrics file is empty");
+        }
+
+        String filename = file.getOriginalFilename();
+
+        if (filename == null || filename.isBlank()) {
+            throw new InvalidFileException("Filename is empty");
+        }
+
+        if (!filename.toLowerCase().endsWith(".lrc")) {
+            throw new InvalidFileException("Only .lrc files are allowed");
         }
     }
 }

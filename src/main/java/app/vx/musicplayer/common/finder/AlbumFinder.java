@@ -6,6 +6,7 @@ import app.vx.musicplayer.exception.AlbumNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,15 @@ public class AlbumFinder {
                 artistId,
                 PageRequest.of(0, limit)
         ).getContent();
+    }
+
+    public List<Album> findTop4ByOrderByIdDesc() {
+        return albumRepository.findAll(
+                PageRequest.of(
+                        0,
+                        4,
+                        Sort.by(Sort.Direction.DESC, "id")
+                )
+        ).toList();
     }
 }

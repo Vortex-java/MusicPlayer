@@ -3,9 +3,8 @@ package app.vx.musicplayer.album.service;
 import app.vx.musicplayer.album.dto.*;
 import app.vx.musicplayer.album.entity.Album;
 import app.vx.musicplayer.album.mapper.AlbumMapper;
-import app.vx.musicplayer.album.mapper.TrackMapper;
+import app.vx.musicplayer.track.mapper.TrackMapper;
 import app.vx.musicplayer.album.repository.AlbumRepository;
-import app.vx.musicplayer.artist.repository.ArtistRepository;
 import app.vx.musicplayer.common.dto.PageResponse;
 import app.vx.musicplayer.common.finder.*;
 import org.springframework.data.domain.Page;
@@ -29,7 +28,6 @@ public class AlbumService {
 
     public AlbumService (
             AlbumRepository albumRepository,
-            ArtistRepository artistRepository,
             AlbumMapper albumMapper,
             AlbumFinder albumFinder,
             ArtistFinder artistFinder,
@@ -84,15 +82,14 @@ public class AlbumService {
         Album album = albumFinder.findByIdOrElseThrow(id);
 
         return new GetAlbumPageResponse(
-                album.getId(),
                 album.getName(),
                 album.getArtist().getId(),
                 album.getArtist().getName(),
                 album.getReleaseDate(),
                 coverUrlFinder.findUrl(album.getCover()),
-                trackFinder.findByAlbumId(id)
+                trackFinder.findByAlbumIdOrderByTrackNumberAsc(id)
                         .stream()
-                        .map(trackMapper::toResponse)
+                        .map(trackMapper::toAlbumTrackResponse)
                         .toList()
         );
     }

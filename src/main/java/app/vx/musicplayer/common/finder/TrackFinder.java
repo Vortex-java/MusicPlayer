@@ -6,6 +6,7 @@ import app.vx.musicplayer.track.repository.TrackRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public class TrackFinder {
         return trackRepository.findByAlbumId(id);
     }
 
+    public List<Track> findByAlbumIdOrderByTrackNumberAsc(Long id) {
+        return trackRepository.findByAlbumIdOrderByTrackNumberAsc(id);
+    }
+
     public Page<Track> findByArtistId (Long id, Pageable pageable) {
         return trackRepository.findByArtistId(id, pageable);
     }
@@ -38,5 +43,15 @@ public class TrackFinder {
                 artistId,
                 PageRequest.of(0, limits)
         ).getContent();
+    }
+
+    public List<Track> findTop10ByOrderByIdDesc () {
+        return trackRepository.findAll(
+                PageRequest.of(
+                        0,
+                        10,
+                        Sort.by(Sort.Direction.DESC, "id")
+                )
+        ).toList();
     }
 }

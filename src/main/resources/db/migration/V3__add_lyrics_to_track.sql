@@ -1,0 +1,1 @@
+ALTER TABLE tracks ADD COLUMN lyrics_path VARCHAR(255);

@@ -1,7 +1,7 @@
 package app.vx.musicplayer.track.service;
 
 import app.vx.musicplayer.album.entity.Album;
-import app.vx.musicplayer.album.mapper.TrackMapper;
+import app.vx.musicplayer.track.mapper.TrackMapper;
 import app.vx.musicplayer.artist.entity.Artist;
 import app.vx.musicplayer.common.dto.PageResponse;
 import app.vx.musicplayer.common.event.FileCleanupEvent;
@@ -55,6 +55,9 @@ public class TrackService {
             "audio/ogg"
     );
 
+    private static final String LYRICS_DIRECTORY = "lyrics";
+    private static final Filetype LYRICS_FILE_TYPE = Filetype.LYRICS;
+
     public TrackService (
             TrackRepository trackRepository,
             FileStorageService fileStorageService,
@@ -78,7 +81,7 @@ public class TrackService {
     }
 
     @Transactional
-    public void create (MultipartFile file, CreateTrackRequest request) {
+    public void create (MultipartFile trackFile, MultipartFile lyricsFile, CreateTrackRequest request) {
 
         Artist artist = artistFinder.findByIdOrElseThrow(request.artistId());
 
@@ -86,25 +89,39 @@ public class TrackService {
 
         Cover cover = coverFinder.findByIdOrElseNull(request.coverId());
 
-        String path = fileStorageService.save(file, TRACKS_DIRECTORY, FILE_TYPE, allowedTypes);
+        String trackPath = fileStorageService.save(trackFile, TRACKS_DIRECTORY, FILE_TYPE, allowedTypes);
+
+        String lyricsPath = null;
+
+        if (lyricsFile != null && !lyricsFile.isEmpty()) {
+            lyricsPath = fileStorageService.save(lyricsFile, LYRICS_DIRECTORY, LYRICS_FILE_TYPE, null);
+        }
 
         try {
-            long duration = audioMetadataService.getDuration(path);
+            long duration = audioMetadataService.getDuration(trackPath);
 
             Track track = new Track(
                     request.name(),
                     album,
                     artist,
                     duration,
-                    path,
-                    cover
+                    trackPath,
+                    lyricsPath,
+                    cover,
+                    request.trackNumber()
             );
 
             trackRepository.save(track);
         } catch (InvalidFileException e) {
             applicationEventPublisher.publishEvent(
-                    new FileCleanupEvent(path)
+                    new FileCleanupEvent(trackPath)
             );
+
+            if (lyricsPath != null) {
+                applicationEventPublisher.publishEvent(
+                        new FileCleanupEvent(lyricsPath)
+                );
+            }
 
             throw e;
         }
@@ -128,6 +145,12 @@ public class TrackService {
         return fileStorageService.load(track.getFilePath());
     }
 
+    public Resource getLyrics (Long id) {
+        Track track = trackFinder.findByIdOrElseThrow(id);
+
+        return fileStorageService.load(track.getLyricsPath());
+    }
+
     @Transactional
     public void change (Long id, ChangeTrackRequest request) {
         Track track = trackFinder.findByIdOrElseThrow(id);
@@ -142,6 +165,35 @@ public class TrackService {
         track.setArtist(artist);
         track.setAlbum(album);
         track.setCover(cover);
+        track.setTrackNumber(request.trackNumber());
+    }
+
+    @Transactional
+    public void changeLyrics (Long id, MultipartFile file) {
+
+        Track track = trackFinder.findByIdOrElseThrow(id);
+        String oldLyrics = track.getLyricsPath();
+
+        if (file != null && !file.isEmpty()) {
+
+            oldLyrics = track.getLyricsPath();
+
+            String newLyrics = fileStorageService.save(file, LYRICS_DIRECTORY, LYRICS_FILE_TYPE, null);
+
+            track.setLyricsPath(newLyrics);
+
+            if (oldLyrics != null) {
+                applicationEventPublisher.publishEvent(
+                        new FileDeleteEvent(oldLyrics)
+                );
+            }
+        } else {
+            if (oldLyrics != null) {
+                applicationEventPublisher.publishEvent(
+                        new FileDeleteEvent(oldLyrics)
+                );
+            }
+        }
     }
 
     @Transactional

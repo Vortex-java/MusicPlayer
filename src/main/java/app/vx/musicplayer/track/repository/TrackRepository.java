@@ -13,6 +13,8 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
 
     List<Track> findByAlbumId(Long albumId);
 
+    List<Track> findByAlbumIdOrderByTrackNumberAsc(Long albumId);
+
     Page<Track> findByArtistId(Long artistId, Pageable pageable);
 
     Page<Track> findByArtistIdOrderByIdDesc (Long artistId, Pageable pageable);
